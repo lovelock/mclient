@@ -18,7 +18,7 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/lovelock/gomemcache/memcache"
+	"github.com/lovelock/gomemcache/v3/memcache"
 	"github.com/spf13/cobra"
 )
 
@@ -28,7 +28,7 @@ var getCmd = &cobra.Command{
 	Short: "get value of ${key} from memcached server ${host}:${port}",
 	Run: func(cmd *cobra.Command, args []string) {
 		mc := memcache.New(fmt.Sprintf("%s:%d", host, port))
-        mc.DisableCAS = true
+		mc.DisableCAS = true
 
 		value, err := mc.Get(key)
 		if err != nil {

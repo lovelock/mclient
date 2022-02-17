@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/lovelock/gomemcache/memcache"
+	"github.com/lovelock/gomemcache/v3/memcache"
 	"github.com/spf13/cobra"
 )
 
