@@ -16,9 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
-	"github.com/lovelock/gomemcache/v3/memcache"
+	"github.com/lovelock/mclient/core"
 	"github.com/spf13/cobra"
 )
 
@@ -27,15 +25,7 @@ var getCmd = &cobra.Command{
 	Use:   "get ${host} ${port} ${key}",
 	Short: "get value of ${key} from memcached server ${host}:${port}",
 	Run: func(cmd *cobra.Command, args []string) {
-		mc := memcache.New(fmt.Sprintf("%s:%d", host, port))
-		mc.DisableCAS = true
-
-		value, err := mc.Get(key)
-		if err != nil {
-			fmt.Printf("error occurred: %s\n", err)
-		}
-
-		fmt.Println(string(value.Value))
+		core.Get(key, host, port)
 	},
 }
 

@@ -16,10 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-	"os"
-
-	"github.com/lovelock/gomemcache/v3/memcache"
+	"github.com/lovelock/mclient/core"
 	"github.com/spf13/cobra"
 )
 
@@ -28,13 +25,7 @@ var setCmd = &cobra.Command{
 	Use:   "set ${host} ${port} ${key} ${value}",
 	Short: "set value of ${value} to key ${key}",
 	Run: func(cmd *cobra.Command, args []string) {
-		mc := memcache.New(fmt.Sprintf("%s:%d", host, port))
-		err := mc.Set(&memcache.Item{Key: key, Value: []byte(value)})
-		if err != nil {
-			fmt.Printf("error ocurred: %s\n", err)
-			os.Exit(1)
-		}
-		fmt.Println("key " + key + " set with value " + value)
+		core.Set(key, value, host, port)
 	},
 }
 
