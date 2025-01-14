@@ -29,13 +29,14 @@ var getCmd = &cobra.Command{
 	Short: "get value of ${key} from memcached server ${host}:${port}",
 	Run: func(cmd *cobra.Command, args []string) {
 		mc := memcache.New(fmt.Sprintf("%s:%d", host, port))
+		mc.DisableCAS = true
 
 		value, err := mc.Get(key)
 		if err == memcache.ErrCacheMiss {
 			fmt.Printf("all messages consumed for %s", key)
 			return
 		} else if err != nil {
-			fmt.Printf("error consuming for %s", key)
+			fmt.Printf("error consuming for %s, error is: %v\n", key, err)
 			return
 		} else {
 			fmt.Println(string(value.Value))

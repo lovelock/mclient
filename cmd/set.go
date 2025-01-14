@@ -28,7 +28,12 @@ var setCmd = &cobra.Command{
 	Short: "set value of ${value} to key ${key}",
 	Run: func(cmd *cobra.Command, args []string) {
 		mc := memcache.New(fmt.Sprintf("%s:%d", host, port))
-		mc.Set(&memcache.Item{Key: key, Value: []byte(value)})
+		mc.DisableCAS = true
+		if err := mc.Set(&memcache.Item{Key: key, Value: []byte(value)}); err != nil {
+			return
+		}
+
+		fmt.Printf("set ok for key: %s, value: %s\n", key, value)
 	},
 }
 
